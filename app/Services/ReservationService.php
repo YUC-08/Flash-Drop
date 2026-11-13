@@ -26,6 +26,7 @@ class ReservationService
      *
      * @throws ReservationException
      */
+    #[\NoDiscard('Reservation result must be used to build the HTTP response.')]
     public function reserve(User $user, Drop $drop, int $quantity, string $idempotencyKey): array
     {
         $idempotencyCacheKey = "idempotency:reserve:{$user->uuid}:{$idempotencyKey}";
@@ -33,7 +34,7 @@ class ReservationService
         $dropLockKey = "drop:{$drop->uuid}:lock";
         $fingerprint = sha1("{$drop->uuid}|{$quantity}");
 
-        // 1. Idempotency Kilidi (Atomik ve Güvenli) ne işe yarar ? -> Eger ayni istegi birden fazla kez gonderirsek hata verip engellemek icin 
+        // 1. Idempotency Kilidi (Atomik ve Güvenli) ne işe yarar ? -> Eger ayni istegi birden fazla kez gonderirsek hata verip engellemek icin
         $idempotencyLock = Cache::lock($idempotencyLockKey, 10);
         try {
             $idempotencyLock->block(5);

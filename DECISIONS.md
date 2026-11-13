@@ -97,4 +97,27 @@ Flash-Drop, sınırlı stoklu "drop" satışları için Laravel 13 API'sidir. Ki
 - Süresi dolan pending rezervasyonların stok iadesi yalnızca `drops:reconcile` çalıştığında yapılır. Schedule edilmediği sürece stok manuel çalıştırmaya kadar düşük kalır.
 
 ## 16. Kullanılan PHP 8.5 özellikleri
-- Pipe operatörü (`|>`): `GET /drops` formatlama zincirinde.
+- Pipe operatörü (`|>`): `GET /drops` formatlama zincirinde. 
+
+
+
+## 17. Güvenlik notları (geliştirme ortamı)
+- Proje Laravel Sail ile yerel geliştirme için yapılandırıldı. Risk taraması (non-production profil) kritik/yüksek bulgu üretmedi.
+- MySQL ve Redis portları yalnızca localhost'a bağlandı. [Yaptıysan yaz, yapmadıysan: "Sail varsayılanı olarak tüm arayüzlerde açık, üretimde kapatılmalıdır."]
+- `MYSQL_ALLOW_EMPTY_PASSWORD` Sail varsayılanıdır, üretimde kullanılmamalıdır.
+- Dosya izinleri bulguları Windows bind mount kaynaklıdır, üretimde 640/775 uygulanmalıdır.
+- `.env` repoya girmez. Sohbette göründüğü için teslimden önce `php artisan key:generate` ile APP_KEY yenilenmelidir. 
+
+
+PS C:\Users\ulasc\OneDrive\Masaüstü\Flash-Drop> docker compose exec laravel.test php artisan schedule:work
+
+   INFO  Running scheduled tasks.
+
+  2026-11-13 00:08:07 Running ['artisan' drops:reconcile] ............ 7s DONE
+  ⇂ '/usr/bin/php8.5' 'artisan' drops:reconcile > '/dev/null' 2>&1  
+
+  2026-11-13 00:09:07 Running ['artisan' drops:reconcile] ............ 8s DONE
+  ⇂ '/usr/bin/php8.5' 'artisan' drops:reconcile > '/dev/null' 2>&1  
+
+  2026-11-13 00:10:07 Running ['artisan' drops:reconcile] ^C
+PS C:\Users\ulasc\OneDrive\Masaüstü\Flash-Drop>  En fazla 1 dakika 
