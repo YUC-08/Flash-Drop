@@ -120,4 +120,8 @@ PS C:\Users\ulasc\OneDrive\Masaüstü\Flash-Drop> docker compose exec laravel.te
   ⇂ '/usr/bin/php8.5' 'artisan' drops:reconcile > '/dev/null' 2>&1  
 
   2026-11-13 00:10:07 Running ['artisan' drops:reconcile] ^C
-PS C:\Users\ulasc\OneDrive\Masaüstü\Flash-Drop>  En fazla 1 dakika 
+PS C:\Users\ulasc\OneDrive\Masaüstü\Flash-Drop>  En fazla 1 dakika  
+
+
+NoDiscard --> ReservationService.php 
+PipeOperator --> DropController.php
